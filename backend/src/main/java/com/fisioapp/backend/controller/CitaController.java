@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/citas")
 public class CitaController {
@@ -25,4 +27,54 @@ public class CitaController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    //GET para todas las citas de un paciente en concreto
+    @GetMapping("/usuario/{usuarioId}")
+    public List<Cita> verCitas ( @PathVariable Long usuarioId){
+
+        //pido la lista al servicio
+        List<Cita> listaCitas = citaService.obtenerCitasDePaciente(usuarioId);
+        //se devuelve la lista
+        return ResponseEntity.ok(listaCitas).getBody();
+    }
+
+    // DELETE para cancelar una cita
+    @DeleteMapping("/cancelar/{citaId}")
+    public ResponseEntity<String> cancelarCita (@PathVariable Long citaId){
+
+        boolean borrada = citaService.cancelarCita(citaId);
+
+        if (borrada) {
+            return ResponseEntity.ok("Cita cancelada correctamente.");
+        }
+        return ResponseEntity.status(404).body("Error: La cita no existe.");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -7,6 +7,8 @@ import com.fisioapp.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CitaService {
 
@@ -32,4 +34,51 @@ public class CitaService {
         //si el paciente no existe devolvemos null
         return null;
     }
+
+    //metodo para ver las citas de un paciente
+    public List<Cita> obtenerCitasDePaciente (Long usuarioId){
+        return citaRepository.findByPacienteId(usuarioId);
+    }
+
+    // metodo para cancelar una cita por ID
+    public boolean cancelarCita (long citaId){
+
+        if (citaRepository.existsById(citaId)){
+
+            citaRepository.deleteById(citaId);
+            return true;
+        }
+        return false;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
