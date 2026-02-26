@@ -1,0 +1,67 @@
+package com.fisioapp.backend.controller;
+
+
+import com.fisioapp.backend.config.JwtUtil;
+import com.fisioapp.backend.dto.LoginRequestDTO;
+import com.fisioapp.backend.dto.LoginResponseDTO;
+import com.fisioapp.backend.model.Usuario;
+import com.fisioapp.backend.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController //para decir que esta clase es una API y que devuelve datos JSON
+@RequestMapping("/api/usuarios") // dir URL local para entrar localhost:8080/api/usuarios
+
+public class UsuarioController {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private JwtUtil jwtUtil; //aqui se crean los tokens
+
+    // metodo que se activa cuando enviamos datos por POST (registro)
+    @PostMapping("/registro")
+    public Usuario registrar(@RequestBody Usuario usuario) {
+        // le pido al servicio que registre al usuario
+        return usuarioService.registrarUsuario(usuario);
+    }
+
+    // este metodo se activca con GET (para ver todos los usuarios)
+    @GetMapping("/todos")
+    public List<Usuario> obtenerTodos() {
+        return usuarioService.obtenerTodos();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
+
+        // Pedimos al servicio que intente hacer el login
+        Usuario usuarioValidado = usuarioService.login(loginRequest.getEmail(), loginRequest.getPassword());
+
+        // Si nos devuelve un usuario, todo ha ido bien
+        if (usuarioValidado != null) {
+            // 1. Fabricamos la pulsera (Token JWT) usando su email
+            String tokenGenerado = jwtUtil.generarToken(usuarioValidado.getEmail());
+
+            // 2. La metemos en su cajita DTO
+            LoginResponseDTO respuesta = new com.fisioapp.backend.dto.LoginResponseDTO(tokenGenerado);
+
+            // 3. Se la enviamos al usuario con un 200 OK
+            return ResponseEntity.ok(respuesta);
+        }
+
+        // Si nos devuelve null, devolvemos error 401 (No autorizado)
+        return ResponseEntity.status(401).build();
+    }
+
+    @GetMapping("/perfil")
+    public String verPerfil() {
+        // Si sale esto en consola, el problema NO es la seguridad
+        System.out.println(">>> ¡HEMOS ENTRADO AL CONTROLADOR DEL PERFIL!");
+        return "¡Hola! Si estás leyendo esto, es que el portero ha visto tu pulsera JWT y te ha dejado entrar a la zona VIP.";
+    }
+}
