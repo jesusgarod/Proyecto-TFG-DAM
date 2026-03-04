@@ -35,6 +35,10 @@ public class Usuario {
     @JsonIgnore
     private List<Cita> citas;
 
+    @OneToMany(mappedBy = "paciente")
+    @JsonIgnore //para cortar el bucle infinito que se genera
+    private List<Ejercicio> ejercicios;
+
     public Usuario() {
     }
 
