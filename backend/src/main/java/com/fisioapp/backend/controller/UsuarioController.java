@@ -5,6 +5,7 @@ import com.fisioapp.backend.config.JwtUtil;
 import com.fisioapp.backend.dto.LoginRequestDTO;
 import com.fisioapp.backend.dto.LoginResponseDTO;
 import com.fisioapp.backend.model.Usuario;
+import com.fisioapp.backend.repository.UsuarioRepository;
 import com.fisioapp.backend.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private JwtUtil jwtUtil; //aqui se crean los tokens
@@ -63,5 +67,18 @@ public class UsuarioController {
         // Si sale esto en consola, el problema NO es la seguridad
         System.out.println(">>> ¡HEMOS ENTRADO AL CONTROLADOR DEL PERFIL!");
         return "¡Hola! Si estás leyendo esto, es que el portero ha visto tu pulsera JWT y te ha dejado entrar a la zona VIP.";
+    }
+
+    // GET para obtener los datos del perfil de usuario
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario>  obtenerPerfil (@PathVariable Long id){
+
+        //Buscamos al user en la base de datos
+        Usuario usuarioEncontrado = usuarioRepository.findById(id).orElse(null);
+
+        if (usuarioEncontrado != null){
+            return ResponseEntity.ok(usuarioEncontrado);
+        }
+        return ResponseEntity.notFound().build();
     }
 }
