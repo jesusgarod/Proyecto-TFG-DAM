@@ -9,6 +9,7 @@ import com.fisioapp.backend.repository.UsuarioRepository;
 import com.fisioapp.backend.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,10 +64,17 @@ public class UsuarioController {
     }
 
     @GetMapping("/perfil")
-    public String verPerfil() {
-        // Si sale esto en consola, el problema NO es la seguridad
-        System.out.println(">>> ¡HEMOS ENTRADO AL CONTROLADOR DEL PERFIL!");
-        return "¡Hola! Si estás leyendo esto, es que el portero ha visto tu pulsera JWT y te ha dejado entrar a la zona VIP.";
+    public ResponseEntity<Usuario> obtenerMiPerfil(Authentication authentication) {
+
+//        guardamos el email del paciente
+        String emailPaciente = authentication.getName();
+
+        // se usa el repositorio para buscar el paciente por el mail introducido
+        Usuario paciente = usuarioRepository.findByEmail(emailPaciente).get();
+
+        // se devuelven los datos del paciente
+        return ResponseEntity.ok(paciente);
+
     }
 
     // GET para obtener los datos del perfil de usuario
