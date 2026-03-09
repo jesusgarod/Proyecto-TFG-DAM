@@ -29,6 +29,8 @@ public class UsuarioService {
         // Se la ponemos del nuevo al user ya cifrada
         usuario.setPassword(passwordCifrada);
 
+        usuario.setRol("PACIENTE");
+
         //Guardamos en la bbdd
         return usuarioRepository.save(usuario);
     }

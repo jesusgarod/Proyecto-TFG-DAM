@@ -27,6 +27,8 @@ public class Usuario {
 
     private String nombre;
     private String apellidos;
+    private  String telefono;
+
 
     // aqui se guarda si es FISIO o PACIENTE
     private String rol;
@@ -96,5 +98,12 @@ public class Usuario {
 
     public void setCitas(List<Cita> citas) {
         this.citas = citas;
+    }
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }
