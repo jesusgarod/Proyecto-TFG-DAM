@@ -28,6 +28,7 @@ public class Usuario {
     private String nombre;
     private String apellidos;
     private  String telefono;
+    private int edad;
 
 
     // aqui se guarda si es FISIO o PACIENTE
@@ -42,6 +43,13 @@ public class Usuario {
     private List<Ejercicio> ejercicios;
 
     public Usuario() {
+    }
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
 
     public long getId() {
