@@ -53,7 +53,7 @@ public class UsuarioController {
             String tokenGenerado = jwtUtil.generarToken(usuarioValidado.getEmail());
 
             // 2. La metemos en su cajita DTO
-            LoginResponseDTO respuesta = new com.fisioapp.backend.dto.LoginResponseDTO(tokenGenerado);
+            LoginResponseDTO respuesta = new com.fisioapp.backend.dto.LoginResponseDTO(tokenGenerado, usuarioValidado.getRol());
 
             // 3. Se la enviamos al usuario con un 200 OK
             return ResponseEntity.ok(respuesta);

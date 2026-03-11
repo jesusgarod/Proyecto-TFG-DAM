@@ -3,9 +3,11 @@ package com.fisioapp.backend.dto;
 public class LoginResponseDTO {
 
     private String token;
+    private String rol;
 
-    public LoginResponseDTO (String token){
+    public LoginResponseDTO (String token, String rol){
         this.token = token;
+        this.rol = rol;
     }
 
     public String getToken() {
@@ -14,5 +16,13 @@ public class LoginResponseDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }
