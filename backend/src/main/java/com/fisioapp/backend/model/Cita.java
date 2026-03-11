@@ -11,13 +11,31 @@ public class Cita {
     private long id;
 
     private String fecha;
+    private String hora;
     private String motivo;
+    private String estado = "Pendiente";
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario paciente;
 
     public Cita() {
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public long getId() {
