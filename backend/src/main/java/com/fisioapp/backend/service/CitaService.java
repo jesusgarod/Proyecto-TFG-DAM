@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CitaService {
@@ -52,6 +53,27 @@ public class CitaService {
 
     }
 
+    public List <Cita> obtenerTodas(){
+
+        return citaRepository.findAll();
+    }
+
+    public Cita cambiarEstado (Long citaId, String nuevoEstado){
+
+        //busca la cita
+        Optional<Cita> citaEncontrada = citaRepository.findById(citaId);
+
+        if (citaEncontrada.isPresent()){
+            Cita cita = citaEncontrada.get();
+
+            // se le cambia el estado
+            cita.setEstado(nuevoEstado);
+
+            //la devolvemos actualizada
+            return citaRepository.save(cita);
+        }
+        return null;
+    }
 
 
 

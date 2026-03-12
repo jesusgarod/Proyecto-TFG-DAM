@@ -38,6 +38,14 @@ public class CitaController {
         return ResponseEntity.ok(listaCitas).getBody();
     }
 
+    @GetMapping("/todas")
+    public ResponseEntity<List<Cita>> verTodasLasCitas(){
+
+        List<Cita> listaCompleta = citaService.obtenerTodas();
+
+        return ResponseEntity.ok(listaCompleta);
+    }
+
     // DELETE para cancelar una cita
     @DeleteMapping("/cancelar/{citaId}")
     public ResponseEntity<String> cancelarCita (@PathVariable Long citaId){
@@ -48,6 +56,18 @@ public class CitaController {
             return ResponseEntity.ok("Cita cancelada correctamente.");
         }
         return ResponseEntity.status(404).body("Error: La cita no existe.");
+    }
+
+    @PutMapping("/estado/{citaId}")
+    public ResponseEntity<Cita> actualizarEstadoCita (@PathVariable Long citaId, @RequestParam String estado){
+
+        Cita citaActualizada = citaService.cambiarEstado (citaId, estado);
+
+        if (citaActualizada != null){
+
+            return ResponseEntity.ok(citaActualizada);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 

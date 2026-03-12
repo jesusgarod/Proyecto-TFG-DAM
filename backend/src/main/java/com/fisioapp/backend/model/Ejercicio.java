@@ -13,6 +13,7 @@ public class Ejercicio {
     private String descripcion; // como hacer el ejercicio
     private int series;
     private int repeticiones;
+    private String urlVideo;
 
     //igual que con las citas
     @ManyToOne
@@ -21,6 +22,8 @@ public class Ejercicio {
 
     public Ejercicio() {
     }
+
+
 
     public Long getId() {
         return id;
@@ -68,5 +71,13 @@ public class Ejercicio {
 
     public void setPaciente(Usuario paciente) {
         this.paciente = paciente;
+    }
+
+    public String getUrlVideo() {
+        return urlVideo;
+    }
+
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
     }
 }
